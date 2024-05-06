@@ -60,6 +60,7 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
                 }).ToList()
             };
             return Ok(response);
@@ -88,6 +89,7 @@ namespace full_ecommerce.Controllers
                         UrlHandle = x.UrlHandle,
                         ShortDescription = x.ShortDescription,
                         FeaturedImageUrl = x.FeaturedImageUrl,
+                        Price = x.Price,
                     }).ToList()
                 });
             }
@@ -121,6 +123,7 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
                 }).ToList()
             };
 
@@ -154,6 +157,7 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
                 }).ToList()
 
             };
@@ -208,6 +212,7 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl, 
+                    Price = x.Price,
                 }).ToList()
             };
 

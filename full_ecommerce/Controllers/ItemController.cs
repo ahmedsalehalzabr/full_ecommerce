@@ -34,6 +34,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
                 UrlHandle = request.UrlHandle,
+                Price = request.Price,
                
 
             };
@@ -52,7 +53,8 @@ namespace full_ecommerce.Controllers
                 PublishedDate = blogPost.PublishedDate,
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
-                
+                Price = blogPost.Price,
+
 
             };
 
@@ -76,7 +78,7 @@ namespace full_ecommerce.Controllers
                     PublishedDate = blogPost.PublishedDate,
                     ShortDescription = blogPost.ShortDescription,
                     UrlHandle = blogPost.UrlHandle,
-                
+                    Price = blogPost.Price,
                     FeaturedImageUrl = blogPost.FeaturedImageUrl,
                
                 });
@@ -107,7 +109,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = blogPost.PublishedDate,
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
-               
+                Price= blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
               
             };
@@ -130,7 +132,7 @@ namespace full_ecommerce.Controllers
                 Title = request.Title,
             
                 FeaturedImageUrl = request.FeaturedImageUrl,
-               
+                Price = request.Price,
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
                 UrlHandle = request.UrlHandle,
@@ -156,7 +158,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = blogPost.PublishedDate,
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
-              
+                Price = blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
               
             };
@@ -182,7 +184,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = deleteBlogPost.PublishedDate,
                 ShortDescription = deleteBlogPost.ShortDescription,
                 UrlHandle = deleteBlogPost.UrlHandle,
-          
+                Price = deleteBlogPost.Price,
                 FeaturedImageUrl = deleteBlogPost.FeaturedImageUrl,
             };
             return Ok(response);
