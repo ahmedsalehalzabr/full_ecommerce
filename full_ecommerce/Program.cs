@@ -27,6 +27,7 @@ builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IImageItemRepository, ImageItemRepository>();
 builder.Services.AddScoped<IImageCategoryRepository, ImageCategoryRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 
 builder.Services.AddIdentityCore<IdentityUser>()

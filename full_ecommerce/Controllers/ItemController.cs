@@ -46,7 +46,7 @@ namespace full_ecommerce.Controllers
             var response = new ItemDto
             {
                 Id = blogPost.Id,
-                Title = request.Title,
+                Title = blogPost.Title,
               
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
               
