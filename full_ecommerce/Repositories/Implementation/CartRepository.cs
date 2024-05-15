@@ -11,10 +11,10 @@ namespace full_ecommerce.Repositories.Implementation
 
         public CartRepository(AppDbContext db)
         {
-            this._db = db;
+            this._db = db; 
         }
 
-        public async Task<Cart> CreateAsync(Cart cart)
+        public async Task<Cart> CreateAsync(Cart cart) 
         {
             await _db.Carts.AddAsync(cart);
             await _db.SaveChangesAsync();
@@ -24,7 +24,7 @@ namespace full_ecommerce.Repositories.Implementation
        
         public async Task<Cart?> DeleteAsync(Guid id)
         {
-            var existingBlogPost = await _db.Carts.FirstOrDefaultAsync(x => x.Id == id);
+            var existingBlogPost = await _db.Carts.FirstOrDefaultAsync(x => x.Id == id); 
             if (existingBlogPost != null)
             {
                 _db.Carts.Remove(existingBlogPost);
@@ -34,9 +34,9 @@ namespace full_ecommerce.Repositories.Implementation
             return null;
         }
 
-        public async Task<IEnumerable<Cart>> GetAllAsync()
+        public async Task<IEnumerable<Cart>> GetAllAsync() 
         {
-            return await _db.Carts.ToListAsync();
+            return await _db.Carts.Include(x => x.Items).ToListAsync();  
         }
 
     }

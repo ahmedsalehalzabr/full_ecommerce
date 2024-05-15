@@ -6,6 +6,6 @@ namespace full_ecommerce.DTO
     {
         public Guid Id { get; set; }
         //  public int Qty { get; set; }
-        public List<Item> Items { get; set; }
+        
     }
 }

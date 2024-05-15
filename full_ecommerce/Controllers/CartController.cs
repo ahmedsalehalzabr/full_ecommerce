@@ -1,8 +1,6 @@
-﻿using full_ecommerce.Data;
-using full_ecommerce.Data.Models;
+﻿using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
 using full_ecommerce.Repositories.Interface;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace full_ecommerce.Controllers
@@ -12,12 +10,12 @@ namespace full_ecommerce.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartRepository cartRepository;
+        private readonly IItemRepository itemRepository;
 
-
-        public CartController(ICartRepository cartRepository)
+        public CartController(ICartRepository cartRepository, IItemRepository itemRepository)
         {
             this.cartRepository = cartRepository;
-
+            this.itemRepository = itemRepository;
         }
 
         // عرض صفحة السلة التسوق
@@ -33,47 +31,69 @@ namespace full_ecommerce.Controllers
                 response.Add(new CartDto
                 {
                     Id = blogPost.Id,
-                 //   Qty = blogPost.Qty,
+                 // Qty = blogPost.Qty,
                     UserId = blogPost.UserId,
-                    ItemId = blogPost.ItemId,
-                 
+                   // ItemId = blogPost.ItemId,
+                    Items = blogPost.Items.Select(x => new ItemDto
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        PublishedDate = x.PublishedDate,
+                        UrlHandle = x.UrlHandle,
+                        ShortDescription = x.ShortDescription,
+                        FeaturedImageUrl = x.FeaturedImageUrl,
+                        Price = x.Price,
+                    }).ToList()
+
                 });
-            }
-
-            return Ok(response);
-
+            } 
+            return Ok(response); 
         }
 
         // إضافة عنصر إلى السلة
 
         [HttpPost]
-        public async Task<IActionResult> AddCart([FromBody] AddCartDto request)
+        public async Task<IActionResult> AddCart([FromBody] AddCartDto request) 
         {
             var cart = new Cart
             {
-              //  Qty = request.Qty,
+              //Qty = request.Qty,
                 UserId = request.UserId,
-                ItemId = request.ItemId,
-
-
+               // ItemId = request.ItemId,
+                Items = new List<Item>()
             };
+            foreach (var categoryGuid in request.Items)
+            {
+                var existingCategory = await itemRepository.GetByIdAsync(categoryGuid);
 
-
+                if (existingCategory is not null)
+                {
+                    cart.Items.Add(existingCategory);
+                }
+            }
 
             cart = await cartRepository.CreateAsync(cart);
 
             var response = new CartDto
             {
                 Id = cart.Id,
-              //  Qty = cart.Qty,
+              //Qty = cart.Qty,
                 UserId = cart.UserId,
-                ItemId = cart.ItemId,
+                //  ItemId = cart.ItemId,
+                Items = cart.Items.Select(x => new ItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    PublishedDate = x.PublishedDate,
+                    UrlHandle = x.UrlHandle,
+                    ShortDescription = x.ShortDescription,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
+                }).ToList()
 
 
             };
-
             return Ok(response);
-
         }
 
         [HttpDelete]
@@ -87,14 +107,14 @@ namespace full_ecommerce.Controllers
             //convert Domain model to DTO
             var response = new CartDto
             {
-                Id = deleteCart.Id,
-               ItemId= deleteCart.ItemId,
+               Id = deleteCart.Id,
+              // ItemId= deleteCart.ItemId,
                UserId= deleteCart.UserId,
-             //  Qty= deleteCart.Qty,
+             //Qty= deleteCart.Qty,
             };
             return Ok(response);
-
         }
+
         //public async Task<IActionResult> AddToCart(Guid itemId, int quantity)
         //{
         //    var cartItem = _context.Carts.FirstOrDefault(c => c.ItemId == itemId);
@@ -128,7 +148,7 @@ namespace full_ecommerce.Controllers
         //    }
 
         //    return RedirectToAction("Index");
-        //}
+        //}     
     }
 }
 
