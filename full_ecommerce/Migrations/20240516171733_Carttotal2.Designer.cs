@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using full_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240516171733_Carttotal2")]
+    partial class Carttotal2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,12 +30,12 @@ namespace full_ecommerce.Migrations
                     b.Property<Guid>("CartsId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ItemsId")
+                    b.Property<Guid>("CartsId1")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("CartsId", "ItemsId");
+                    b.HasKey("CartsId", "CartsId1");
 
-                    b.HasIndex("ItemsId");
+                    b.HasIndex("CartsId1");
 
                     b.ToTable("CartItem");
                 });
@@ -112,6 +115,9 @@ namespace full_ecommerce.Migrations
 
                     b.Property<string>("IdentityUsersId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -262,7 +268,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasOne("full_ecommerce.Data.Models.Item", null)
                         .WithMany()
-                        .HasForeignKey("ItemsId")
+                        .HasForeignKey("CartsId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

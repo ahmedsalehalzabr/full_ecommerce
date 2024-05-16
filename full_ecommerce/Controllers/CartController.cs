@@ -19,21 +19,26 @@ namespace full_ecommerce.Controllers
         }
 
         // عرض صفحة السلة التسوق
-
+/*
         [HttpGet]
         public async Task<IActionResult> GetAllBlogPosts()
         {
             var blogPosts = await cartRepository.GetAllAsync();
+            //CartDto cartDto = new CartDto();
+            //cartDto.SubTotal = 0;
 
+            //cartDto.TotalPrice = 0;
             var response = new List<CartDto>();
             foreach (var blogPost in blogPosts)
             {
+
                 response.Add(new CartDto
                 {
                     Id = blogPost.Id,
-                 // Qty = blogPost.Qty,
                     UserId = blogPost.UserId,
-                   // ItemId = blogPost.ItemId,
+
+
+
                     Items = blogPost.Items.Select(x => new ItemDto
                     {
                         Id = x.Id,
@@ -46,10 +51,47 @@ namespace full_ecommerce.Controllers
                     }).ToList()
 
                 });
-            } 
-            return Ok(response); 
-        }
+            }
 
+
+            return Ok(response);
+        }
+*/
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllBlogPosts()
+        {
+            var blogPosts = await cartRepository.GetAllAsync();
+            var response = new List<CartDto>();
+
+            foreach (var blogPost in blogPosts)
+            {
+                var cartDto = new CartDto
+                {
+                    Id = blogPost.Id,
+                    UserId = blogPost.UserId,
+                    Items = blogPost.Items.Select(x => new ItemDto
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        PublishedDate = x.PublishedDate,
+                        UrlHandle = x.UrlHandle,
+                        ShortDescription = x.ShortDescription,
+                        FeaturedImageUrl = x.FeaturedImageUrl,
+                        Price = x.Price 
+                    }).ToList()
+                };
+
+                // Calculate the subtotal and total price
+                cartDto.SubTotal = (decimal)cartDto.Items.Sum(x => x.Price);
+                cartDto.TotalPrice = cartDto.SubTotal;
+                cartDto.Quantity = cartDto.Items.Count;
+
+                response.Add(cartDto);
+            }
+
+            return Ok(response);
+        }
         // إضافة عنصر إلى السلة
 
         [HttpPost]
@@ -57,9 +99,9 @@ namespace full_ecommerce.Controllers
         {
             var cart = new Cart
             {
-              //Qty = request.Qty,
+              
                 UserId = request.UserId,
-               // ItemId = request.ItemId,
+              
                 Items = new List<Item>()
             };
             foreach (var categoryGuid in request.Items)
