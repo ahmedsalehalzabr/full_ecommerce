@@ -179,6 +179,7 @@ namespace full_ecommerce.Controllers
             // Create IdentityUser object
             var user = new IdentityUser
             {
+               
                 UserName = request.UserName.Trim(),
                 Email = request.Email?.Trim(),
                 PhoneNumber = request.PhoneNumber?.Trim(),

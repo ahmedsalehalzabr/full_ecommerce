@@ -12,5 +12,6 @@ namespace full_ecommerce.Repositories.Interface
         Task<Cart> CreateAsync(Cart cart);
 
         Task<Cart?> DeleteAsync(Guid id);
+        Task<List<Cart>> GetCartsByUserId(Guid userId);
     }
 }

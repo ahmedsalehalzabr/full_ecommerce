@@ -39,5 +39,12 @@ namespace full_ecommerce.Repositories.Implementation
             return await _db.Carts.Include(x => x.Items).ToListAsync();  
         }
 
+        public async Task<List<Cart>> GetCartsByUserId(Guid userId)
+        {
+            return await _db.Carts
+                .Include(x => x.Items)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+        }
     }
 }

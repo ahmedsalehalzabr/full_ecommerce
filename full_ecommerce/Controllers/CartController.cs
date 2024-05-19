@@ -1,5 +1,6 @@
 ﻿using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
+using full_ecommerce.Repositories.Implementation;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,44 +20,44 @@ namespace full_ecommerce.Controllers
         }
 
         // عرض صفحة السلة التسوق
-/*
-        [HttpGet]
-        public async Task<IActionResult> GetAllBlogPosts()
-        {
-            var blogPosts = await cartRepository.GetAllAsync();
-            //CartDto cartDto = new CartDto();
-            //cartDto.SubTotal = 0;
-
-            //cartDto.TotalPrice = 0;
-            var response = new List<CartDto>();
-            foreach (var blogPost in blogPosts)
-            {
-
-                response.Add(new CartDto
+        /*
+                [HttpGet]
+                public async Task<IActionResult> GetAllBlogPosts()
                 {
-                    Id = blogPost.Id,
-                    UserId = blogPost.UserId,
+                    var blogPosts = await cartRepository.GetAllAsync();
+                    //CartDto cartDto = new CartDto();
+                    //cartDto.SubTotal = 0;
 
-
-
-                    Items = blogPost.Items.Select(x => new ItemDto
+                    //cartDto.TotalPrice = 0;
+                    var response = new List<CartDto>();
+                    foreach (var blogPost in blogPosts)
                     {
-                        Id = x.Id,
-                        Title = x.Title,
-                        PublishedDate = x.PublishedDate,
-                        UrlHandle = x.UrlHandle,
-                        ShortDescription = x.ShortDescription,
-                        FeaturedImageUrl = x.FeaturedImageUrl,
-                        Price = x.Price,
-                    }).ToList()
 
-                });
-            }
+                        response.Add(new CartDto
+                        {
+                            Id = blogPost.Id,
+                            UserId = blogPost.UserId,
 
 
-            return Ok(response);
-        }
-*/
+
+                            Items = blogPost.Items.Select(x => new ItemDto
+                            {
+                                Id = x.Id,
+                                Title = x.Title,
+                                PublishedDate = x.PublishedDate,
+                                UrlHandle = x.UrlHandle,
+                                ShortDescription = x.ShortDescription,
+                                FeaturedImageUrl = x.FeaturedImageUrl,
+                                Price = x.Price,
+                            }).ToList()
+
+                        });
+                    }
+
+
+                    return Ok(response);
+                }
+        */
 
         [HttpGet]
         public async Task<IActionResult> GetAllBlogPosts()
@@ -78,13 +79,13 @@ namespace full_ecommerce.Controllers
                         UrlHandle = x.UrlHandle,
                         ShortDescription = x.ShortDescription,
                         FeaturedImageUrl = x.FeaturedImageUrl,
-                        Price = x.Price 
+                        Price = x.Price
                     }).ToList()
                 };
 
                 // Calculate the subtotal and total price
-                cartDto.SubTotal = (decimal)cartDto.Items.Sum(x => x.Price);
-                cartDto.TotalPrice = cartDto.SubTotal;
+               // cartDto.SubTotal = (decimal)cartDto.Items.Sum(x => x.Price);
+               // cartDto.TotalPrice = cartDto.SubTotal;
                 cartDto.Quantity = cartDto.Items.Count;
 
                 response.Add(cartDto);
@@ -93,6 +94,108 @@ namespace full_ecommerce.Controllers
             return Ok(response);
         }
         // إضافة عنصر إلى السلة
+        //[HttpGet]
+        //[Route("{userId:Guid}")]
+        //public async Task<IActionResult> GetCategoryById([FromRoute] Guid userId)
+        //{
+        //    var existingCategory = await cartRepository.GetById(userId);
+
+        //    if (existingCategory is null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var response = new CartDto
+        //    {
+        //        Id = existingCategory.Id,
+        //        UserId=existingCategory.UserId,
+        //        Quantity = existingCategory.Quantity,
+        //        Items = existingCategory.Items.Select(x => new ItemDto
+        //        {
+        //            Id = x.Id,
+        //            Title = x.Title,
+        //            PublishedDate = x.PublishedDate,
+        //            UrlHandle = x.UrlHandle,
+        //            ShortDescription = x.ShortDescription,
+        //            FeaturedImageUrl = x.FeaturedImageUrl,
+        //            Price = x.Price,
+        //        }).ToList()
+        //    };
+
+        //    return Ok(response);
+        //}
+        [HttpGet]
+        [Route("{userId:Guid}")]
+        public async Task<IActionResult> GetCartByUserId([FromRoute] Guid userId)
+        {
+            var existingCarts = await cartRepository.GetCartsByUserId(userId);
+
+            if (!existingCarts.Any())
+            {
+                return NotFound();
+            }
+
+            var response = existingCarts.Select(cart => new CartDto
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                Quantity = cart.Quantity,
+                Items = cart.Items.Select(x => new ItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    PublishedDate = x.PublishedDate,
+                    UrlHandle = x.UrlHandle,
+                    ShortDescription = x.ShortDescription,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price
+                }).ToList()
+            }).ToList();
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("ddd")]
+        public async Task<IActionResult> GetAllCart()
+        {
+            var blogPosts = await cartRepository.GetAllAsync();
+            var response = new List<CartDto>();
+            var totalPrice = blogPosts.Sum(bp => bp.Items.Sum(i => i.Price));
+
+            foreach (var blogPost in blogPosts)
+            {
+                var cartDto = new CartDto
+                {
+                    Id = blogPost.Id,
+                    UserId = blogPost.UserId,
+                    Items = blogPost.Items.Select(x => new ItemDto
+                    {
+                        Id = x.Id,
+                        Title = x.Title,
+                        PublishedDate = x.PublishedDate,
+                        UrlHandle = x.UrlHandle,
+                        ShortDescription = x.ShortDescription,
+                        FeaturedImageUrl = x.FeaturedImageUrl,
+                        Price = x.Price
+                    }).ToList()
+                };
+
+                cartDto.Quantity = cartDto.Items.Count;
+
+                response.Add(cartDto);
+            }
+
+            return Ok(new
+            {
+                TotalPrice = totalPrice,
+
+                Cart = response
+            });
+        }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> AddCart([FromBody] AddCartDto request) 
