@@ -1,8 +1,11 @@
-﻿using full_ecommerce.Data.Models;
+﻿using AutoMapper;
+using AutoMapper.Internal.Mappers;
+using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
 using full_ecommerce.Repositories.Implementation;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace full_ecommerce.Controllers
 {
@@ -12,11 +15,13 @@ namespace full_ecommerce.Controllers
     {
         private readonly ICartRepository cartRepository;
         private readonly IItemRepository itemRepository;
+        private readonly IMapper mapper;
 
-        public CartController(ICartRepository cartRepository, IItemRepository itemRepository)
+        public CartController(ICartRepository cartRepository, IItemRepository itemRepository, IMapper mapper)
         {
             this.cartRepository = cartRepository;
             this.itemRepository = itemRepository;
+            this.mapper = mapper;
         }
 
         // عرض صفحة السلة التسوق
@@ -171,6 +176,7 @@ namespace full_ecommerce.Controllers
                     UserId = blogPost.UserId,
                     Items = blogPost.Items.Select(x => new ItemDto
                     {
+                        
                         Id = x.Id,
                         Title = x.Title,
                         PublishedDate = x.PublishedDate,
@@ -195,6 +201,36 @@ namespace full_ecommerce.Controllers
         }
 
 
+        [HttpGet]
+        [Route("aaa")]
+        public async Task<IActionResult> GetAllCart2()
+        {
+            var blogPosts = await cartRepository.GetAllAsync();
+            var response = blogPosts.Select(blogPost => new CartDto
+            {
+                Id = blogPost.Id,
+                UserId = blogPost.UserId,
+                Quantity = blogPost.Items.Count,
+                Items = blogPost.Items.Select(x => new ItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    PublishedDate = x.PublishedDate,
+                    UrlHandle = x.UrlHandle,
+                    ShortDescription = x.ShortDescription,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price
+                }).ToList()
+            }).ToList();
+
+            var totalPrice = blogPosts.Sum(bp => bp.Items.Sum(i => i.Price));
+
+            return Ok(new
+            {
+                TotalPrice = totalPrice,
+                Cart = response
+            });
+        }
 
 
         [HttpPost]
@@ -222,9 +258,7 @@ namespace full_ecommerce.Controllers
             var response = new CartDto
             {
                 Id = cart.Id,
-              //Qty = cart.Qty,
                 UserId = cart.UserId,
-                //  ItemId = cart.ItemId,
                 Items = cart.Items.Select(x => new ItemDto
                 {
                     Id = x.Id,
@@ -253,47 +287,12 @@ namespace full_ecommerce.Controllers
             var response = new CartDto
             {
                Id = deleteCart.Id,
-              // ItemId= deleteCart.ItemId,
                UserId= deleteCart.UserId,
-             //Qty= deleteCart.Qty,
             };
             return Ok(response);
         }
 
-        //public async Task<IActionResult> AddToCart(Guid itemId, int quantity)
-        //{
-        //    var cartItem = _context.Carts.FirstOrDefault(c => c.ItemId == itemId);
-        //    if (cartItem != null)
-        //    {
-        //        cartItem.Qty += quantity;
-        //    }
-        //    else
-        //    {
-        //        var newItem = new Cart
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            ItemId = itemId,
-        //            Qty = quantity
-        //        };
-        //        _context.Carts.Add(newItem);
-        //    }
-        //    _context.SaveChanges();
-
-        //    return RedirectToAction("Index");
-        //}
-
-        // حذف عنصر من السلة
-        //public IActionResult RemoveFromCart(Guid cartId)
-        //{
-        //    var cartItem = _context.Carts.FirstOrDefault(c => c.Id == cartId);
-        //    if (cartItem != null)
-        //    {
-        //        _context.Carts.Remove(cartItem);
-        //        _context.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}     
+            
     }
 }
 
