@@ -1,4 +1,6 @@
-﻿namespace full_ecommerce.Data.Models
+﻿using full_ecommerce.Data.Models;
+
+namespace full_ecommerce.Data.Models
 {
     public class Item
     {
@@ -9,9 +11,11 @@
         public string UrlHandle { get; set; }
         public decimal? Price { get; set; }
         public DateTime PublishedDate { get; set; }
-       
+        public int Quantity { get; set; }
 
         public ICollection<Category> Categories { get; set; }
         public ICollection<Cart> Carts { get; set; }
     }
 }
+
+

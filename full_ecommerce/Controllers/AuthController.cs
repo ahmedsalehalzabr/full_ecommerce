@@ -157,6 +157,7 @@ namespace full_ecommerce.Controllers
 
                     var response = new LoginResponseDto()
                     {
+                        Id = Guid.Parse(identityUser.Id), // تحويل string إلى Guid
                         Email = request.Email,
                         Roles = roles.ToList(),
                         Token = jwtToken

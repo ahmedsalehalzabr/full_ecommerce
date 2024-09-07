@@ -46,5 +46,18 @@ namespace full_ecommerce.Repositories.Implementation
                 .Where(c => c.UserId == userId)
                 .ToListAsync();
         }
+        public async Task<Cart> GetByUserIdAsync(Guid userId)
+        {
+            // افترض أنك تستخدم إطار عمل ORM مثل Entity Framework
+            return await _db.Carts
+                .Include(c => c.Items)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+        }
+        public async Task UpdateAsync(Cart cart)
+        {
+            // افترض أنك تستخدم إطار عمل ORM مثل Entity Framework
+            _db.Carts.Update(cart);
+            await _db.SaveChangesAsync();
+        }
     }
 }

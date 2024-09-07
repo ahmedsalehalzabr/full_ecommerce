@@ -84,13 +84,13 @@ namespace full_ecommerce.Controllers
                         UrlHandle = x.UrlHandle,
                         ShortDescription = x.ShortDescription,
                         FeaturedImageUrl = x.FeaturedImageUrl,
-                        Price = x.Price
+                        Price = x.Price * x.Quantity,
+                        Quantity = x.Quantity 
+
                     }).ToList()
                 };
 
-                // Calculate the subtotal and total price
-               // cartDto.SubTotal = (decimal)cartDto.Items.Sum(x => x.Price);
-               // cartDto.TotalPrice = cartDto.SubTotal;
+              
                 cartDto.Quantity = cartDto.Items.Count;
 
                 response.Add(cartDto);
@@ -98,37 +98,7 @@ namespace full_ecommerce.Controllers
 
             return Ok(response);
         }
-        // إضافة عنصر إلى السلة
-        //[HttpGet]
-        //[Route("{userId:Guid}")]
-        //public async Task<IActionResult> GetCategoryById([FromRoute] Guid userId)
-        //{
-        //    var existingCategory = await cartRepository.GetById(userId);
 
-        //    if (existingCategory is null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var response = new CartDto
-        //    {
-        //        Id = existingCategory.Id,
-        //        UserId=existingCategory.UserId,
-        //        Quantity = existingCategory.Quantity,
-        //        Items = existingCategory.Items.Select(x => new ItemDto
-        //        {
-        //            Id = x.Id,
-        //            Title = x.Title,
-        //            PublishedDate = x.PublishedDate,
-        //            UrlHandle = x.UrlHandle,
-        //            ShortDescription = x.ShortDescription,
-        //            FeaturedImageUrl = x.FeaturedImageUrl,
-        //            Price = x.Price,
-        //        }).ToList()
-        //    };
-
-        //    return Ok(response);
-        //}
         [HttpGet]
         [Route("{userId:Guid}")]
         public async Task<IActionResult> GetCartByUserId([FromRoute] Guid userId)
@@ -153,7 +123,8 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
-                    Price = x.Price
+                    Price = x.Price * x.Quantity,
+                    Quantity = x.Quantity
                 }).ToList()
             }).ToList();
 
@@ -183,7 +154,8 @@ namespace full_ecommerce.Controllers
                         UrlHandle = x.UrlHandle,
                         ShortDescription = x.ShortDescription,
                         FeaturedImageUrl = x.FeaturedImageUrl,
-                        Price = x.Price
+                        Price = x.Price,
+                        Quantity = x.Quantity
                     }).ToList()
                 };
 
@@ -203,7 +175,7 @@ namespace full_ecommerce.Controllers
 
         [HttpGet]
         [Route("aaa")]
-        public async Task<IActionResult> GetAllCart2()
+        public async Task<IActionResult> GetAllCart2() 
         {
             var blogPosts = await cartRepository.GetAllAsync();
             var response = blogPosts.Select(blogPost => new CartDto
@@ -219,7 +191,8 @@ namespace full_ecommerce.Controllers
                     UrlHandle = x.UrlHandle,
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
-                    Price = x.Price
+                    Price = x.Price,
+                    Quantity = x.Quantity
                 }).ToList()
             }).ToList();
 
@@ -231,6 +204,9 @@ namespace full_ecommerce.Controllers
                 Cart = response
             });
         }
+     
+
+
 
 
         [HttpPost]
@@ -249,6 +225,7 @@ namespace full_ecommerce.Controllers
 
                 if (existingCategory is not null)
                 {
+                    existingCategory.Quantity = 1;
                     cart.Items.Add(existingCategory);
                 }
             }
@@ -268,10 +245,69 @@ namespace full_ecommerce.Controllers
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
                     Price = x.Price,
+                    Quantity = x.Quantity,
                 }).ToList()
 
 
             };
+            return Ok(response);
+        }
+      
+
+
+        [HttpPost]
+        [Route("Quantity")]
+        public async Task<IActionResult> AddCart2([FromBody] AddCartDto request)
+        {
+            // Fetch the existing cart for the user or create a new one
+            var cart = await cartRepository.GetByUserIdAsync(request.UserId) ?? new Cart
+            {
+                UserId = request.UserId,
+                Items = new List<Item>()
+            };
+
+            foreach (var itemGuid in request.Items)
+            {
+                var existingItem = await itemRepository.GetByIdAsync(itemGuid);
+
+                if (existingItem is not null)
+                {
+                    var cartItem = cart.Items.FirstOrDefault(x => x.Id == existingItem.Id);
+
+                    if (cartItem != null)
+                    {
+                        cartItem.Quantity++;
+
+                    }
+                    else
+                    {
+                        existingItem.Quantity = 1; // Initialize quantity
+                        cart.Items.Add(existingItem);
+                    }
+
+                }
+            }
+
+            // Save the updated cart
+            await cartRepository.UpdateAsync(cart);
+
+            var response = new CartDto
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                Items = cart.Items.Select(x => new ItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    PublishedDate = x.PublishedDate,
+                    UrlHandle = x.UrlHandle,
+                    ShortDescription = x.ShortDescription,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
+                    Quantity = x.Quantity // Include quantity
+                }).ToList()
+            };
+
             return Ok(response);
         }
 
@@ -291,8 +327,60 @@ namespace full_ecommerce.Controllers
             };
             return Ok(response);
         }
+        [HttpDelete]
+        [Route("Quantity/{itemId:Guid}")]
+        public async Task<IActionResult> DeleteCartItem([FromRoute] Guid itemId, [FromBody] Guid userId)
+        {
+            // جلب السلة الخاصة بالمستخدم
+            var cart = await cartRepository.GetByUserIdAsync(userId);
 
-            
+            if (cart == null)
+            {
+                return NotFound("Cart not found");
+            }
+
+            // العثور على العنصر في السلة
+            var cartItem = cart.Items.FirstOrDefault(x => x.Id == itemId);
+
+            if (cartItem == null)
+            {
+                return NotFound("Item not found in cart");
+            }
+
+            // تقليل الكمية أو إزالة العنصر
+            if (cartItem.Quantity > 1)
+            {
+                cartItem.Quantity--;
+            }
+            //else
+            //{
+            //    cart.Items.Remove(cartItem);
+            //}
+
+            // حفظ التغييرات
+            await cartRepository.UpdateAsync(cart);
+
+            var response = new CartDto
+            {
+                Id = cart.Id,
+                UserId = cart.UserId,
+                Items = cart.Items.Select(x => new ItemDto
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    PublishedDate = x.PublishedDate,
+                    UrlHandle = x.UrlHandle,
+                    ShortDescription = x.ShortDescription,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
+                    Quantity = x.Quantity
+                }).ToList()
+            };
+
+            return Ok(response);
+        }
+
+
     }
 }
 
