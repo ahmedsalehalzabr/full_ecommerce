@@ -24,45 +24,7 @@ namespace full_ecommerce.Controllers
             this.mapper = mapper;
         }
 
-        // عرض صفحة السلة التسوق
-        /*
-                [HttpGet]
-                public async Task<IActionResult> GetAllBlogPosts()
-                {
-                    var blogPosts = await cartRepository.GetAllAsync();
-                    //CartDto cartDto = new CartDto();
-                    //cartDto.SubTotal = 0;
-
-                    //cartDto.TotalPrice = 0;
-                    var response = new List<CartDto>();
-                    foreach (var blogPost in blogPosts)
-                    {
-
-                        response.Add(new CartDto
-                        {
-                            Id = blogPost.Id,
-                            UserId = blogPost.UserId,
-
-
-
-                            Items = blogPost.Items.Select(x => new ItemDto
-                            {
-                                Id = x.Id,
-                                Title = x.Title,
-                                PublishedDate = x.PublishedDate,
-                                UrlHandle = x.UrlHandle,
-                                ShortDescription = x.ShortDescription,
-                                FeaturedImageUrl = x.FeaturedImageUrl,
-                                Price = x.Price,
-                            }).ToList()
-
-                        });
-                    }
-
-
-                    return Ok(response);
-                }
-        */
+     
 
         [HttpGet]
         public async Task<IActionResult> GetAllBlogPosts()
@@ -281,7 +243,7 @@ namespace full_ecommerce.Controllers
                     }
                     else
                     {
-                        existingItem.Quantity = 1; // Initialize quantity
+                       // existingItem.Quantity = 1; // Initialize quantity
                         cart.Items.Add(existingItem);
                     }
 
@@ -295,6 +257,7 @@ namespace full_ecommerce.Controllers
             {
                 Id = cart.Id,
                 UserId = cart.UserId,
+                Quantity = cart.Quantity,
                 Items = cart.Items.Select(x => new ItemDto
                 {
                     Id = x.Id,
@@ -352,10 +315,10 @@ namespace full_ecommerce.Controllers
             {
                 cartItem.Quantity--;
             }
-            //else
-            //{
-            //    cart.Items.Remove(cartItem);
-            //}
+            else
+            {
+                cart.Items.Remove(cartItem);
+            }
 
             // حفظ التغييرات
             await cartRepository.UpdateAsync(cart);
