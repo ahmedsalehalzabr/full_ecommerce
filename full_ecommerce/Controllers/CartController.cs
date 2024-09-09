@@ -2,10 +2,12 @@
 using AutoMapper.Internal.Mappers;
 using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
+using full_ecommerce.Migrations;
 using full_ecommerce.Repositories.Implementation;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using Cart = full_ecommerce.Data.Models.Cart;
 
 namespace full_ecommerce.Controllers
 {
@@ -37,6 +39,8 @@ namespace full_ecommerce.Controllers
                 var cartDto = new CartDto
                 {
                     Id = blogPost.Id,
+                    Quantity = blogPost.Items.Count,
+                    TotalPrice = (decimal)blogPost.Items.Sum(x => x.Price * x.Quantity),
                     UserId = blogPost.UserId,
                     Items = blogPost.Items.Select(x => new ItemDto
                     {
@@ -75,8 +79,9 @@ namespace full_ecommerce.Controllers
             var response = existingCarts.Select(cart => new CartDto
             {
                 Id = cart.Id,
+                Quantity = cart.Items.Count,
+                TotalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity),
                 UserId = cart.UserId,
-                Quantity = cart.Quantity,
                 Items = cart.Items.Select(x => new ItemDto
                 {
                     Id = x.Id,
@@ -93,79 +98,40 @@ namespace full_ecommerce.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("ddd")]
-        public async Task<IActionResult> GetAllCart()
-        {
-            var blogPosts = await cartRepository.GetAllAsync();
-            var response = new List<CartDto>();
-            var totalPrice = blogPosts.Sum(bp => bp.Items.Sum(i => i.Price));
-
-            foreach (var blogPost in blogPosts)
-            {
-                var cartDto = new CartDto
-                {
-                    Id = blogPost.Id,
-                    UserId = blogPost.UserId,
-                    Items = blogPost.Items.Select(x => new ItemDto
-                    {
-                        
-                        Id = x.Id,
-                        Title = x.Title,
-                        PublishedDate = x.PublishedDate,
-                        UrlHandle = x.UrlHandle,
-                        ShortDescription = x.ShortDescription,
-                        FeaturedImageUrl = x.FeaturedImageUrl,
-                        Price = x.Price,
-                        Quantity = x.Quantity
-                    }).ToList()
-                };
-
-                cartDto.Quantity = cartDto.Items.Count;
-
-                response.Add(cartDto);
-            }
-
-            return Ok(new
-            {
-                TotalPrice = totalPrice,
-
-                Cart = response
-            });
-        }
+     
 
 
-        [HttpGet]
-        [Route("aaa")]
-        public async Task<IActionResult> GetAllCart2() 
-        {
-            var blogPosts = await cartRepository.GetAllAsync();
-            var response = blogPosts.Select(blogPost => new CartDto
-            {
-                Id = blogPost.Id,
-                UserId = blogPost.UserId,
-                Quantity = blogPost.Items.Count,
-                Items = blogPost.Items.Select(x => new ItemDto
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    PublishedDate = x.PublishedDate,
-                    UrlHandle = x.UrlHandle,
-                    ShortDescription = x.ShortDescription,
-                    FeaturedImageUrl = x.FeaturedImageUrl,
-                    Price = x.Price,
-                    Quantity = x.Quantity
-                }).ToList()
-            }).ToList();
+        //[HttpGet]
+        //[Route("aaa")]
+        //public async Task<IActionResult> GetAllCart2() 
+        //{
+        //    var blogPosts = await cartRepository.GetAllAsync();
+        //    var response = blogPosts.Select(blogPost => new CartDto
+        //    {
+        //        Id = blogPost.Id,
+        //        UserId = blogPost.UserId,
+        //        Quantity = blogPost.Items.Count,
+        //        Items = blogPost.Items.Select(x => new ItemDto
+        //        {
+        //            Id = x.Id,
+        //            Title = x.Title,
+        //            PublishedDate = x.PublishedDate,
+        //            UrlHandle = x.UrlHandle,
+        //            ShortDescription = x.ShortDescription,
+        //            FeaturedImageUrl = x.FeaturedImageUrl,
+        //            Price = x.Price,
+        //            Quantity = x.Quantity
+        //        }).ToList()
+        //    }).ToList();
 
-            var totalPrice = blogPosts.Sum(bp => bp.Items.Sum(i => i.Price));
+        //    var totalPrice = blogPosts.Sum(bp => bp.Items.Sum(i => i.Price));
 
-            return Ok(new
-            {
-                TotalPrice = totalPrice,
-                Cart = response
-            });
-        }
+        //    return Ok(new
+        //    {
+        //        TotalPrice = totalPrice,
+        //        Cart = response
+        //    });
+        //}
      
 
 
@@ -197,6 +163,8 @@ namespace full_ecommerce.Controllers
             var response = new CartDto
             {
                 Id = cart.Id,
+                Quantity = cart.Items.Count,
+                TotalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity),
                 UserId = cart.UserId,
                 Items = cart.Items.Select(x => new ItemDto
                 {
@@ -243,7 +211,7 @@ namespace full_ecommerce.Controllers
                     }
                     else
                     {
-                       // existingItem.Quantity = 1; // Initialize quantity
+                        existingItem.Quantity = 1; // Initialize quantity
                         cart.Items.Add(existingItem);
                     }
 
@@ -253,11 +221,14 @@ namespace full_ecommerce.Controllers
             // Save the updated cart
             await cartRepository.UpdateAsync(cart);
 
+            decimal totalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity);
+
             var response = new CartDto
             {
                 Id = cart.Id,
+                Quantity = cart.Items.Count,
+                TotalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity),
                 UserId = cart.UserId,
-                Quantity = cart.Quantity,
                 Items = cart.Items.Select(x => new ItemDto
                 {
                     Id = x.Id,
@@ -290,6 +261,7 @@ namespace full_ecommerce.Controllers
             };
             return Ok(response);
         }
+
         [HttpDelete]
         [Route("Quantity/{itemId:Guid}")]
         public async Task<IActionResult> DeleteCartItem([FromRoute] Guid itemId, [FromBody] Guid userId)
@@ -326,6 +298,8 @@ namespace full_ecommerce.Controllers
             var response = new CartDto
             {
                 Id = cart.Id,
+                Quantity = cart.Items.Count,
+                TotalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity),
                 UserId = cart.UserId,
                 Items = cart.Items.Select(x => new ItemDto
                 {

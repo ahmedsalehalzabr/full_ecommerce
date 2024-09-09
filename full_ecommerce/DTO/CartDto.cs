@@ -6,7 +6,9 @@
      
       
         public int Quantity { get; set; }
-       
+
+        public decimal TotalPrice { get; set; }
+
         public Guid UserId { get; set; }
         public List<ItemDto> Items { get; set; } = new List<ItemDto>();
     }

@@ -7,7 +7,8 @@ namespace full_ecommerce.Data.Models
         public Guid Id { get; set; }
    
         public int Quantity { get; set; }
-      
+        public decimal TotalPrice { get; set; }
+
         public Guid UserId { get; set; } 
         public IdentityUser IdentityUsers { get; set; }
 
