@@ -8,7 +8,9 @@
         public decimal? Price { get; set; }
         public string UrlHandle { get; set; }
         public DateTime PublishedDate { get; set; }
+        public decimal? Discount { get; set; }
+      
 
-       
+
     }
 }

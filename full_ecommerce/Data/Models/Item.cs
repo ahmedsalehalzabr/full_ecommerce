@@ -12,6 +12,8 @@ namespace full_ecommerce.Data.Models
         public decimal? Price { get; set; }
         public DateTime PublishedDate { get; set; }
         public int Quantity { get; set; }
+        public decimal? Discount { get; set; }
+        public decimal? PriceDiscount { get; set; }
 
         public ICollection<Category> Categories { get; set; }
         public ICollection<Cart> Carts { get; set; }

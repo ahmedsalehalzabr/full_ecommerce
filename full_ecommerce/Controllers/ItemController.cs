@@ -1,4 +1,5 @@
-﻿using full_ecommerce.Data.Models;
+﻿using Azure.Core;
+using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,8 @@ namespace full_ecommerce.Controllers
                 ShortDescription = request.ShortDescription,
                 UrlHandle = request.UrlHandle,
                 Price = request.Price,
-               
+                Discount = request.Discount,
+              
 
             };
 
@@ -54,6 +56,8 @@ namespace full_ecommerce.Controllers
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
                 Price = blogPost.Price,
+                Discount = request.Discount,
+             
 
 
             };
@@ -80,7 +84,9 @@ namespace full_ecommerce.Controllers
                     UrlHandle = blogPost.UrlHandle,
                     Price = blogPost.Price,
                     FeaturedImageUrl = blogPost.FeaturedImageUrl,
-               
+                    Discount = blogPost.Discount,
+                    PriceDiscount = blogPost.Discount * blogPost.Price / 100,
+
                 });
             }
 
@@ -111,7 +117,9 @@ namespace full_ecommerce.Controllers
                 UrlHandle = blogPost.UrlHandle,
                 Price= blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
-              
+                Discount = blogPost.Discount,
+                PriceDiscount = blogPost.Discount * blogPost.Price / 100,
+
             };
             return Ok(response);
         }
@@ -136,7 +144,9 @@ namespace full_ecommerce.Controllers
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
                 UrlHandle = request.UrlHandle,
-               
+                Discount = request.Discount,
+             
+
             };
 
      
@@ -160,7 +170,9 @@ namespace full_ecommerce.Controllers
                 UrlHandle = blogPost.UrlHandle,
                 Price = blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
+                Discount = blogPost.Discount,
               
+
             };
             return Ok(response);
 
@@ -186,6 +198,8 @@ namespace full_ecommerce.Controllers
                 UrlHandle = deleteBlogPost.UrlHandle,
                 Price = deleteBlogPost.Price,
                 FeaturedImageUrl = deleteBlogPost.FeaturedImageUrl,
+                Discount = deleteBlogPost.Discount,
+                PriceDiscount = deleteBlogPost.PriceDiscount, 
             };
             return Ok(response);
 
