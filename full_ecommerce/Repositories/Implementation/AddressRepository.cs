@@ -1,6 +1,5 @@
 ﻿using full_ecommerce.Data;
 using full_ecommerce.Data.Models;
-using full_ecommerce.Migrations;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;

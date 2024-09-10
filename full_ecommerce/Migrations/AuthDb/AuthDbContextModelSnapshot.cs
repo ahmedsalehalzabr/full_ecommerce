@@ -159,16 +159,16 @@ namespace full_ecommerce.Migrations.AuthDb
                         {
                             Id = "78582265-9a4b-4f31-8d9e-7d176c84a8a6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12811432-9b7c-4c30-8048-c8dc9b63ad82",
+                            ConcurrencyStamp = "f240dddf-ed30-40f3-80c9-89ab6226deb6",
                             Email = "admin@zabr.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ZABR.COM",
                             NormalizedUserName = "ADMIN@ZABR.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGkoVU3Z1fJossfclV5dUgubfFe9pItPkhduKrgWNwYfS3QTo2n6D5fhNadYG6NHPw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHed83OTneCITOlBfXubeLI5GXh4DxuqoqEnL04IhqeSIM5zu9SXS9qFe3hm4hfTMQ==",
                             PhoneNumber = "123",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "69e9f0a0-553a-412a-a503-21d3041a2e59",
+                            SecurityStamp = "e70b9b6c-06bd-441f-8e40-5cf9162d6022",
                             TwoFactorEnabled = false,
                             UserName = "admin@zabr.com"
                         });

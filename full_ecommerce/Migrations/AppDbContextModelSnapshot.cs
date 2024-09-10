@@ -260,36 +260,6 @@ namespace full_ecommerce.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.ItemImage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FileExtension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ItemImages");
-                });
-
             modelBuilder.Entity("CartItem", b =>
                 {
                     b.HasOne("full_ecommerce.Data.Models.Cart", null)

@@ -2,7 +2,6 @@
 using AutoMapper.Internal.Mappers;
 using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
-using full_ecommerce.Migrations;
 using full_ecommerce.Repositories.Implementation;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
