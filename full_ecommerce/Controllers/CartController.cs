@@ -186,74 +186,74 @@ namespace full_ecommerce.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        [Route("Quantity2")]
-        public async Task<IActionResult> AddCart3([FromBody] AddCartDto request)
-        {
-            // Fetch the existing cart for the user or create a new one
-            var cart = await cartRepository.GetByUserIdAsync(request.UserId) ?? new Cart
-            {
-                UserId = request.UserId,
-                Items = new List<Item>()
-            };
+        //[HttpPost]
+        //[Route("Quantity2")]
+        //public async Task<IActionResult> AddCart3([FromBody] AddCartDto request)
+        //{
+        //    // Fetch the existing cart for the user or create a new one
+        //    var cart = await cartRepository.GetByUserIdAsync(request.UserId) ?? new Cart
+        //    {
+        //        UserId = request.UserId,
+        //        Items = new List<Item>()
+        //    };
 
-            foreach (var itemGuid in request.Items)
-            {
-                var existingItem = await itemRepository.GetByIdAsync(itemGuid);
+        //    foreach (var itemGuid in request.Items)
+        //    {
+        //        var existingItem = await itemRepository.GetByIdAsync(itemGuid);
 
-                if (existingItem is not null)
-                {
-                    var cartItem = cart.Items.FirstOrDefault(x => x.Id == existingItem.Id);
+        //        if (existingItem is not null)
+        //        {
+        //            var cartItem = cart.Items.FirstOrDefault(x => x.Id == existingItem.Id);
 
-                    if (cartItem != null)
-                    {
-                        cartItem.Quantity++;
-                    }
-                    else
-                    {
-                        // Create a new cart item with necessary properties
-                        var newCartItem = new Item
-                        {
-                            Id = existingItem.Id,
-                            Title = existingItem.Title,
-                            Price = existingItem.Price,
-                            PublishedDate = existingItem.PublishedDate,
-                            UrlHandle = existingItem.UrlHandle,
-                            ShortDescription = existingItem.ShortDescription,
-                            FeaturedImageUrl = existingItem.FeaturedImageUrl,
-                            Quantity = 1 // Initialize quantity
-                        };
-                        cart.Items.Add(newCartItem);
-                    }
-                }
-            }
+        //            if (cartItem != null)
+        //            {
+        //                cartItem.Quantity++;
+        //            }
+        //            else
+        //            {
+        //                // Create a new cart item with necessary properties
+        //                var newCartItem = new Item
+        //                {
+        //                    Id = existingItem.Id,
+        //                    Title = existingItem.Title,
+        //                    Price = existingItem.Price,
+        //                    PublishedDate = existingItem.PublishedDate,
+        //                    UrlHandle = existingItem.UrlHandle,
+        //                    ShortDescription = existingItem.ShortDescription,
+        //                    FeaturedImageUrl = existingItem.FeaturedImageUrl,
+        //                    Quantity = 1 // Initialize quantity
+        //                };
+        //                cart.Items.Add(newCartItem);
+        //            }
+        //        }
+        //    }
 
-            // Save the updated cart
-            await cartRepository.UpdateAsync(cart);
+        //    // Save the updated cart
+        //    await cartRepository.UpdateAsync(cart);
 
-            decimal totalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity);
+        //    decimal totalPrice = (decimal)cart.Items.Sum(x => x.Price * x.Quantity);
 
-            var response = new CartDto
-            {
-                Id = cart.Id,
-                Quantity = cart.Items.Count,
-                TotalPrice = totalPrice,
-                UserId = cart.UserId,
-                Items = cart.Items.Select(x => new ItemDto
-                {
-                    Id = x.Id,
-                    Title = x.Title,
-                    PublishedDate = x.PublishedDate,
-                    UrlHandle = x.UrlHandle,
-                    ShortDescription = x.ShortDescription,
-                    FeaturedImageUrl = x.FeaturedImageUrl,
-                    Price = x.Price,
-                    Quantity = x.Quantity // Include quantity
-                }).ToList()
-            };
+        //    var response = new CartDto
+        //    {
+        //        Id = cart.Id,
+        //        Quantity = cart.Items.Count,
+        //        TotalPrice = totalPrice,
+        //        UserId = cart.UserId,
+        //        Items = cart.Items.Select(x => new ItemDto
+        //        {
+        //            Id = x.Id,
+        //            Title = x.Title,
+        //            PublishedDate = x.PublishedDate,
+        //            UrlHandle = x.UrlHandle,
+        //            ShortDescription = x.ShortDescription,
+        //            FeaturedImageUrl = x.FeaturedImageUrl,
+        //            Price = x.Price,
+        //            Quantity = x.Quantity // Include quantity
+        //        }).ToList()
+        //    };
 
-            return Ok(response);
-        }
+        //    return Ok(response);
+        //}
 
         [HttpPost]
         [Route("Quantity")]

@@ -85,19 +85,18 @@ namespace full_ecommerce.Controllers
         }
 
         [HttpGet]
-        [Route("{id:Guid}")]
-
-        public async Task<IActionResult> GetAddressById([FromRoute] Guid id)
+        [Route("{userId:Guid}")]
+        public async Task<IActionResult> GetAddressesByUserId([FromRoute] Guid userId)
         {
-            var address = await addressRepository.GetByUserIdAsync(id);
+            var addresses = await addressRepository.GetByUserIdAsync(userId);
 
-            if (address == null)
+            if (addresses == null || !addresses.Any())
             {
                 return NotFound();
             }
 
-            //convert domain model to DTO
-            var response = new AddressDto
+            // تحويل النماذج إلى DTO
+            var response = addresses.Select(address => new AddressDto
             {
                 Id = address.Id,
                 UserId = address.UserId,
@@ -106,11 +105,10 @@ namespace full_ecommerce.Controllers
                 Street = address.Street,
                 Lat = address.Lat,
                 Long = address.Long,
+            }).ToList();
 
-            };
             return Ok(response);
         }
-
 
 
 
@@ -182,6 +180,41 @@ namespace full_ecommerce.Controllers
             };
             return Ok(response);
 
+        }
+        [HttpDelete]
+        [Route("{id:Guid}/{userId:Guid}")]
+        public async Task<IActionResult> DeleteAddress([FromRoute] Guid id, [FromRoute] Guid userId)
+        {
+            // تحقق مما إذا كان العنوان ينتمي إلى المستخدم
+            var address = await addressRepository.GetByIdAsync(id);
+
+            if (address == null || address.UserId != userId)
+            {
+                return NotFound();
+            }
+
+            // قم بحذف العنوان
+            var deleteAddress = await addressRepository.DeleteAsync(id);
+
+            // تحقق مما إذا كانت عملية الحذف قد نجحت
+            if (deleteAddress == null)
+            {
+                return NotFound();
+            }
+
+            // تحويل النموذج إلى DTO
+            var response = new AddressDto
+            {
+                Id = deleteAddress.Id,
+                UserId = deleteAddress.UserId,
+                Name = deleteAddress.Name,
+                City = deleteAddress.City,
+                Street = deleteAddress.Street,
+                Lat = deleteAddress.Lat,
+                Long = deleteAddress.Long,
+            };
+
+            return Ok(response);
         }
     }
 }

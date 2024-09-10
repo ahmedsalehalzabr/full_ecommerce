@@ -39,14 +39,24 @@ namespace full_ecommerce.Repositories.Implementation
             return await _db.Addresses.ToListAsync();
         }
 
-        public async Task<Address> GetByUserIdAsync(Guid id)
+        //public async Task<Address> GetByUserIdAsync(Guid userId)
+        //{
+        //    return await _db.Addresses.FirstOrDefaultAsync(x => x.UserId == userId);
+        //}
+        public async Task<Address> GetByIdAsync(Guid id)
         {
-            return await _db.Addresses.FirstOrDefaultAsync(x => x.Id == id);
+            return await _db.Addresses.FindAsync(id);
+        }
+        public async Task<IEnumerable<Address>> GetByUserIdAsync(Guid userId)
+        {
+            return await _db.Addresses
+                                 .Where(address => address.UserId == userId)
+                                 .ToListAsync();
         }
 
         public async Task<Address?> UpdateAsync(Address address)
         {
-            var existingAddress = await _db.Items.
+            var existingAddress = await _db.Addresses.
                FirstOrDefaultAsync(x => x.Id == address.Id);
             if (existingAddress == null)
             {
@@ -62,5 +72,10 @@ namespace full_ecommerce.Repositories.Implementation
 
             return address;
         }
+        //public async Task<Address?> UpdateAsyncs(Address address)
+        //{
+        //    _db.Carts.Update(address);
+        //    await _db.SaveChangesAsync();
+        //}
     }
 }
