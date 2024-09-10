@@ -56,7 +56,7 @@ namespace full_ecommerce.Controllers
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
                 Price = blogPost.Price,
-                Discount = request.Discount,
+                Discount = blogPost.Discount,
              
 
 

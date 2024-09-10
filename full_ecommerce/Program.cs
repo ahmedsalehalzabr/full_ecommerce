@@ -29,7 +29,7 @@ builder.Services.AddScoped<IImageItemRepository, ImageItemRepository>();
 builder.Services.AddScoped<IImageCategoryRepository, ImageCategoryRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
-builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

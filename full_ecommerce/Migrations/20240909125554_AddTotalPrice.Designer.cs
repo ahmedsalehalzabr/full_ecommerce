@@ -118,7 +118,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.BasketItem", b =>

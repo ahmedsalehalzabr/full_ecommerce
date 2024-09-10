@@ -12,8 +12,8 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240907180016_Cartbasket")]
-    partial class Cartbasket
+    [Migration("20240909235306_addresses")]
+    partial class addresses
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,42 +107,36 @@ namespace full_ecommerce.Migrations
                     b.ToTable("IdentityUser");
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.Basket", b =>
+            modelBuilder.Entity("full_ecommerce.Data.Models.Address", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Lat")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Long")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Baskets");
-                });
-
-            modelBuilder.Entity("full_ecommerce.Data.Models.BasketItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BasketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BasketId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("BasketItem");
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Cart", b =>
@@ -156,6 +150,9 @@ namespace full_ecommerce.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -230,11 +227,17 @@ namespace full_ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<decimal?>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("FeaturedImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PriceDiscount")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("PublishedDate")
@@ -320,25 +323,6 @@ namespace full_ecommerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.BasketItem", b =>
-                {
-                    b.HasOne("full_ecommerce.Data.Models.Basket", "Basket")
-                        .WithMany("Items")
-                        .HasForeignKey("BasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("full_ecommerce.Data.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Basket");
-
-                    b.Navigation("Item");
-                });
-
             modelBuilder.Entity("full_ecommerce.Data.Models.Cart", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUsers")
@@ -346,11 +330,6 @@ namespace full_ecommerce.Migrations
                         .HasForeignKey("IdentityUsersId");
 
                     b.Navigation("IdentityUsers");
-                });
-
-            modelBuilder.Entity("full_ecommerce.Data.Models.Basket", b =>
-                {
-                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
