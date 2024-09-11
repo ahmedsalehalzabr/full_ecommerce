@@ -14,5 +14,6 @@ namespace full_ecommerce.Data
         public DbSet<CategoryIamge> CategoryIamges { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Ordere> Ordere { get; set; }
     }
 } 
