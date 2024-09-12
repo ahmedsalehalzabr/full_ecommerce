@@ -3,6 +3,7 @@ using full_ecommerce.DTO;
 using full_ecommerce.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.NetworkInformation;
 using static Azure.Core.HttpHeader;
 
 namespace full_ecommerce.Controllers
@@ -17,14 +18,29 @@ namespace full_ecommerce.Controllers
         {
             _orderRepository = orderRepository;
         }
+        //[HttpGet("{id}")]
+        //public async Task<IActionResult> GetOrder( Guid userId)
+        //{
+        //    var order = await _orderRepository.GetOrderByIdAndUserIdAsync( userId);
+        //    if (order == null) return NotFound();
 
+        //    return Ok(order);
+        //}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
-            var order = await _orderRepository.GetOrderByIdAsync(id);
-            if (order == null) return NotFound();
+            var orders = await _orderRepository.GetOrdersByUserIdAsync(id);
+            if (orders == null || !orders.Any()) return NotFound();
 
-            return Ok(order);
+            return Ok(orders);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(Guid id, Guid userId)
+        {
+            var success = await _orderRepository.DeleteOrderByIdAndUserIdAsync(id, userId);
+            if (!success) return NotFound();
+
+            return NoContent();
         }
 
         [HttpGet]
@@ -48,6 +64,7 @@ namespace full_ecommerce.Controllers
                OrdersPrice = orderDto.OrdersPrice,
                 PriceDelivery = orderDto.PriceDelivery,
                 PaymentMethod = orderDto.PaymentMethod,
+                Status = orderDto.Status,
                 OrdrsType = orderDto.OrdrsType,
                
              
@@ -57,35 +74,15 @@ namespace full_ecommerce.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] OrderDto orderDto)
-        {
-            var order = await _orderRepository.GetOrderByIdAsync(id);
-            if (order == null) return NotFound();
-
-            order.UserId = orderDto.UserId;
-            order.TotalPrice = orderDto.TotalPrice;
-            order.OrderDate = DateTime.UtcNow;
-            order.Addressid = orderDto.Addressid;
-            
-            order.PriceDelivery = orderDto.PriceDelivery;
-            order.PaymentMethod = orderDto.PaymentMethod;
-            order.OrdrsType = orderDto.OrdrsType;
-            order.OrdersPrice = orderDto.OrdersPrice;
 
 
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteOrder(Guid id)
+        //{
+        //    var success = await _orderRepository.DeleteOrderAsync(id);
+        //    if (!success) return NotFound();
 
-            await _orderRepository.UpdateOrderAsync(order);
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(Guid id)
-        {
-            var success = await _orderRepository.DeleteOrderAsync(id);
-            if (!success) return NotFound();
-
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
     }
 }

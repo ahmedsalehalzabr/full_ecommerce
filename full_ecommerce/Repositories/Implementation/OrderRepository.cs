@@ -14,9 +14,9 @@ namespace full_ecommerce.Repositories.Implementation
             _context = context;
         }
 
-        public async Task<Ordere> GetOrderByIdAsync(Guid orderId)
+        public async Task<IEnumerable<Ordere>> GetOrdersByUserIdAsync(Guid userId)
         {
-            return await _context.Ordere.FirstOrDefaultAsync(o => o.Id == orderId);
+            return await _context.Ordere.Where(o => o.UserId == userId).ToListAsync();
         }
 
         public async Task<IEnumerable<Ordere>> GetAllOrdersAsync()
@@ -40,6 +40,20 @@ namespace full_ecommerce.Repositories.Implementation
         public async Task<bool> DeleteOrderAsync(Guid orderId)
         {
             var order = await _context.Ordere.FindAsync(orderId);
+            if (order == null) return false;
+
+            _context.Ordere.Remove(order);
+            return await _context.SaveChangesAsync() > 0;
+        }
+        //public async Task<Ordere> GetOrderByIdAndUserIdAsync(Guid orderId, Guid userId)
+        //{
+        //    return await _context.Ordere.FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
+        //}
+
+        public async Task<bool> DeleteOrderByIdAndUserIdAsync(Guid orderId, Guid userId)
+        {
+            var order = await _context.Ordere
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
             if (order == null) return false;
 
             _context.Ordere.Remove(order);

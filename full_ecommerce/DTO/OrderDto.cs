@@ -13,7 +13,7 @@ namespace full_ecommerce.DTO
         public string TotalPrice { get; set; }
 
         public string PaymentMethod { get; set; }
-
+        public string Status { get; set; } = "Pending";
         public DateTime OrderDate { get; set; }
 
     }
