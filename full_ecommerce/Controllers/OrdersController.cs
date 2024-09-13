@@ -34,14 +34,14 @@ namespace full_ecommerce.Controllers
 
             return Ok(orders);
         }
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(Guid id, Guid userId)
-        {
-            var success = await _orderRepository.DeleteOrderByIdAndUserIdAsync(id, userId);
-            if (!success) return NotFound();
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteOrder(Guid id, Guid userId)
+        //{
+        //    var success = await _orderRepository.DeleteOrderByIdAndUserIdAsync(id, userId);
+        //    if (!success) return NotFound();
 
-            return NoContent();
-        }
+        //    return NoContent();
+        //}
 
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
@@ -66,6 +66,9 @@ namespace full_ecommerce.Controllers
                 PaymentMethod = orderDto.PaymentMethod,
                 Status = orderDto.Status,
                 OrdrsType = orderDto.OrdrsType,
+                Item = orderDto.Item,
+                Quantity = orderDto.Quantity,
+                Price = orderDto.Price,
                
              
             };
@@ -76,13 +79,13 @@ namespace full_ecommerce.Controllers
 
 
 
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteOrder(Guid id)
-        //{
-        //    var success = await _orderRepository.DeleteOrderAsync(id);
-        //    if (!success) return NotFound();
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteOrder(Guid id)
+        {
+            var success = await _orderRepository.DeleteOrderAsync(id);
+            if (!success) return NotFound();
 
-        //    return NoContent();
-        //}
+            return NoContent();
+        }
     }
 }

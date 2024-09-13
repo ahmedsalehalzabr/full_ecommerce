@@ -6,11 +6,9 @@ namespace full_ecommerce.Repositories.Interface
     {
     Task<IEnumerable<Ordere>> GetOrdersByUserIdAsync(Guid userId);
        
-        // Task<Ordere> GetOrderByIdAndUserIdAsync(Guid orderId, Guid userId); // إضافة
         Task<IEnumerable<Ordere>> GetAllOrdersAsync();
     Task<Ordere> CreateOrderAsync(Ordere order);
     Task<bool> UpdateOrderAsync(Ordere order);
     Task<bool> DeleteOrderAsync(Guid orderId);
-    Task<bool> DeleteOrderByIdAndUserIdAsync(Guid orderId, Guid userId); // إضافة
     }
 }

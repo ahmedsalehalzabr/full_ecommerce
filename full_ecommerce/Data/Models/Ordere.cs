@@ -13,5 +13,9 @@
         public string PaymentMethod { get; set; }
         public string Status { get; set; }
         public DateTime OrderDate { get; set; }
+        public string Item { get; set; }
+        public string Quantity { get; set; }
+        public string Price { get; set; }
+
     }
 }

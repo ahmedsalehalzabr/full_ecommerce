@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using full_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240913091328_AddOrderIte")]
+    partial class AddOrderIte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,6 +234,9 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrdereId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -257,6 +263,8 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrdereId");
+
                     b.ToTable("Items");
                 });
 
@@ -267,10 +275,6 @@ namespace full_ecommerce.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Addressid")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Item")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -289,15 +293,7 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PriceDelivery")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Quantity")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -354,6 +350,18 @@ namespace full_ecommerce.Migrations
                         .HasForeignKey("IdentityUsersId");
 
                     b.Navigation("IdentityUsers");
+                });
+
+            modelBuilder.Entity("full_ecommerce.Data.Models.Item", b =>
+                {
+                    b.HasOne("full_ecommerce.Data.Models.Ordere", null)
+                        .WithMany("Items")
+                        .HasForeignKey("OrdereId");
+                });
+
+            modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

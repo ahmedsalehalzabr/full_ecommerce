@@ -45,19 +45,8 @@ namespace full_ecommerce.Repositories.Implementation
             _context.Ordere.Remove(order);
             return await _context.SaveChangesAsync() > 0;
         }
-        //public async Task<Ordere> GetOrderByIdAndUserIdAsync(Guid orderId, Guid userId)
-        //{
-        //    return await _context.Ordere.FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-        //}
+      
 
-        public async Task<bool> DeleteOrderByIdAndUserIdAsync(Guid orderId, Guid userId)
-        {
-            var order = await _context.Ordere
-                .FirstOrDefaultAsync(o => o.Id == orderId && o.UserId == userId);
-            if (order == null) return false;
-
-            _context.Ordere.Remove(order);
-            return await _context.SaveChangesAsync() > 0;
-        }
+    
     }
 }
