@@ -18,6 +18,10 @@ namespace full_ecommerce.Repositories.Implementation
         {
             return await _context.Ordere.Where(o => o.UserId == userId).ToListAsync();
         }
+        public async Task<Ordere?> GetByIdAsync(Guid id)
+        {
+            return await _context.Ordere.FirstOrDefaultAsync(x => x.Id == id);
+        }
 
         public async Task<IEnumerable<Ordere>> GetAllOrdersAsync()
         {
@@ -45,8 +49,7 @@ namespace full_ecommerce.Repositories.Implementation
             _context.Ordere.Remove(order);
             return await _context.SaveChangesAsync() > 0;
         }
-      
 
-    
+      
     }
 }

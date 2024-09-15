@@ -34,6 +34,19 @@ namespace full_ecommerce.Controllers
 
             return Ok(orders);
         }
+
+        [HttpGet("Id/{id}")]
+        public async Task<IActionResult> GetOrderById(Guid id)
+        {
+            var orders = await _orderRepository.GetByIdAsync(id);
+
+            if (orders == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(orders);
+        }
         //[HttpDelete("{id}")]
         //public async Task<IActionResult> DeleteOrder(Guid id, Guid userId)
         //{
