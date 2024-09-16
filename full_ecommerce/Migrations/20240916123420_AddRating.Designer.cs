@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using full_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916123420_AddRating")]
+    partial class AddRating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,21 +105,6 @@ namespace full_ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("IdentityUser");
-                });
-
-            modelBuilder.Entity("OrdereRating", b =>
-                {
-                    b.Property<Guid>("OrdersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RatingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OrdersId", "RatingsId");
-
-                    b.HasIndex("RatingsId");
-
-                    b.ToTable("OrdereRating");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Address", b =>
@@ -285,6 +273,10 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CommuntRating")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Item")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -316,6 +308,9 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -330,24 +325,6 @@ namespace full_ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ordere");
-                });
-
-            modelBuilder.Entity("full_ecommerce.Data.Models.Rating", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CommuntRating")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Ratings")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("CartItem", b =>
@@ -376,21 +353,6 @@ namespace full_ecommerce.Migrations
                     b.HasOne("full_ecommerce.Data.Models.Item", null)
                         .WithMany()
                         .HasForeignKey("ItemsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("OrdereRating", b =>
-                {
-                    b.HasOne("full_ecommerce.Data.Models.Ordere", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("full_ecommerce.Data.Models.Rating", null)
-                        .WithMany()
-                        .HasForeignKey("RatingsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

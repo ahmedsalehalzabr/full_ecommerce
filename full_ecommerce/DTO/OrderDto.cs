@@ -13,11 +13,23 @@ namespace full_ecommerce.DTO
         public string TotalPrice { get; set; }
 
         public string PaymentMethod { get; set; }
-        public string Status { get; set; } = "Pending";
+        public string Status { get; set; } = "0";
         public DateTime OrderDate { get; set; }
         public string Item { get; set; }
         public string Quantity { get; set; }
         public string Price { get; set; }
+        public List<RatingDto> Ratings { get; set; } = new List<RatingDto>();
+
+        // public List<CartItemDto> CartItems { get; set; } = new List<CartItemDto>();
 
     }
+
+    //public class CartItemDto
+    //{
+    //    public Guid CartId { get; set; }
+    //    public string Title { get; set; }
+    //    public string Qty { get; set; }
+    //    public string Price { get; set; }
+
+    //}
 }

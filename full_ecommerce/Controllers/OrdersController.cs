@@ -82,8 +82,17 @@ namespace full_ecommerce.Controllers
                 Item = orderDto.Item,
                 Quantity = orderDto.Quantity,
                 Price = orderDto.Price,
-               
-             
+           
+                //CartItems = (ICollection<CartItem>)orderDto.CartItems.Select(x => new CartItemDto
+                //{
+                //   CartId = x.CartId,
+                //    Title = x.Title,
+                //    Qty = x.Qty,
+                   
+                //    Price = x.Price,
+                //}).ToList()
+
+
             };
 
             await _orderRepository.CreateOrderAsync(order);

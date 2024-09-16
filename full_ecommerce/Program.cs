@@ -30,7 +30,7 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
