@@ -316,7 +316,7 @@ namespace full_ecommerce.Migrations
                     b.ToTable("Orderss");
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.Orders", b =>
+            modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -354,7 +354,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Ordere");
                 });
 
             modelBuilder.Entity("CartItem", b =>
@@ -398,12 +398,12 @@ namespace full_ecommerce.Migrations
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Item", b =>
                 {
-                    b.HasOne("full_ecommerce.Data.Models.Orders", null)
+                    b.HasOne("full_ecommerce.Data.Models.Ordere", null)
                         .WithMany("Items")
                         .HasForeignKey("OrdersId");
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.Orders", b =>
+            modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
                 {
                     b.Navigation("Items");
                 });

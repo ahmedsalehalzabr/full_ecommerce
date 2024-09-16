@@ -16,7 +16,7 @@ namespace full_ecommerce.Migrations
                 table: "Items");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "Ordere");
 
             migrationBuilder.DropTable(
                 name: "Orderss");
@@ -51,7 +51,7 @@ namespace full_ecommerce.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "Ordere",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -101,7 +101,7 @@ namespace full_ecommerce.Migrations
                 name: "FK_Items_Orders_OrdersId",
                 table: "Items",
                 column: "OrdersId",
-                principalTable: "Orders",
+                principalTable: "Ordere",
                 principalColumn: "Id");
         }
     }

@@ -12,8 +12,8 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911151832_AddOrders")]
-    partial class AddOrders
+    [Migration("20240916144002_AddRatingsss")]
+    partial class AddRatingsss
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,9 +234,6 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("OrdersId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -263,8 +260,6 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrdersId");
-
                     b.ToTable("Items");
                 });
 
@@ -274,32 +269,48 @@ namespace full_ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("Address")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Addressid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CartId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Coupon")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Item")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrdrsType")
-                        .HasColumnType("int");
+                    b.Property<string>("OrdersPrice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("int");
+                    b.Property<string>("OrdrsType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("PriceDelivery")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PriceDelivery")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TotalPrice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -307,6 +318,29 @@ namespace full_ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ordere");
+                });
+
+            modelBuilder.Entity("full_ecommerce.Data.Models.Rating", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CommuntRating")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("OrdereId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Ratings")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrdereId");
+
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("CartItem", b =>
@@ -348,16 +382,16 @@ namespace full_ecommerce.Migrations
                     b.Navigation("IdentityUsers");
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.Item", b =>
+            modelBuilder.Entity("full_ecommerce.Data.Models.Rating", b =>
                 {
                     b.HasOne("full_ecommerce.Data.Models.Ordere", null)
-                        .WithMany("Items")
-                        .HasForeignKey("OrdersId");
+                        .WithMany("Ratings")
+                        .HasForeignKey("OrdereId");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

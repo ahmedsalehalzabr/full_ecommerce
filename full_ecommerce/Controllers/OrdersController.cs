@@ -62,19 +62,17 @@ namespace full_ecommerce.Controllers
             var orders = await _orderRepository.GetAllOrdersAsync();
             return Ok(orders);
         }
-
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] OrderDto orderDto)
         {
             var order = new Ordere
             {
                 Id = Guid.NewGuid(),
-              
                 UserId = orderDto.UserId,
                 TotalPrice = orderDto.TotalPrice,
                 OrderDate = DateTime.UtcNow,
-               Addressid = orderDto.Addressid,
-               OrdersPrice = orderDto.OrdersPrice,
+                Addressid = orderDto.Addressid,
+                OrdersPrice = orderDto.OrdersPrice,
                 PriceDelivery = orderDto.PriceDelivery,
                 PaymentMethod = orderDto.PaymentMethod,
                 Status = orderDto.Status,
@@ -82,17 +80,13 @@ namespace full_ecommerce.Controllers
                 Item = orderDto.Item,
                 Quantity = orderDto.Quantity,
                 Price = orderDto.Price,
-           
-                //CartItems = (ICollection<CartItem>)orderDto.CartItems.Select(x => new CartItemDto
-                //{
-                //   CartId = x.CartId,
-                //    Title = x.Title,
-                //    Qty = x.Qty,
-                   
-                //    Price = x.Price,
-                //}).ToList()
-
-
+                Ratings = orderDto.Ratings.Select(x => new Rating
+                {
+                    Id = x.Id,
+                    Ratings = x.Ratings,
+                    CommuntRating = x.CommuntRating,
+                    // قم بإضافة الخصائص الأخرى حسب الحاجة
+                }).ToList() // تحويل إلى List<Rating> وليس RatingDto
             };
 
             await _orderRepository.CreateOrderAsync(order);

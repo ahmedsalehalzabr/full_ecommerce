@@ -104,21 +104,6 @@ namespace full_ecommerce.Migrations
                     b.ToTable("IdentityUser");
                 });
 
-            modelBuilder.Entity("OrdereRating", b =>
-                {
-                    b.Property<Guid>("OrdersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RatingsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("OrdersId", "RatingsId");
-
-                    b.HasIndex("RatingsId");
-
-                    b.ToTable("OrdereRating");
-                });
-
             modelBuilder.Entity("full_ecommerce.Data.Models.Address", b =>
                 {
                     b.Property<Guid>("Id")
@@ -342,10 +327,15 @@ namespace full_ecommerce.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("OrdereId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal?>("Ratings")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrdereId");
 
                     b.ToTable("Ratings");
                 });
@@ -380,21 +370,6 @@ namespace full_ecommerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OrdereRating", b =>
-                {
-                    b.HasOne("full_ecommerce.Data.Models.Ordere", null)
-                        .WithMany()
-                        .HasForeignKey("OrdersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("full_ecommerce.Data.Models.Rating", null)
-                        .WithMany()
-                        .HasForeignKey("RatingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("full_ecommerce.Data.Models.Cart", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUsers")
@@ -402,6 +377,18 @@ namespace full_ecommerce.Migrations
                         .HasForeignKey("IdentityUsersId");
 
                     b.Navigation("IdentityUsers");
+                });
+
+            modelBuilder.Entity("full_ecommerce.Data.Models.Rating", b =>
+                {
+                    b.HasOne("full_ecommerce.Data.Models.Ordere", null)
+                        .WithMany("Ratings")
+                        .HasForeignKey("OrdereId");
+                });
+
+            modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
+                {
+                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }
