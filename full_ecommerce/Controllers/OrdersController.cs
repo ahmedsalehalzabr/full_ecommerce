@@ -80,6 +80,7 @@ namespace full_ecommerce.Controllers
                 Item = orderDto.Item,
                 Quantity = orderDto.Quantity,
                 Price = orderDto.Price,
+             
                 Ratings = orderDto.Ratings.Select(x => new Rating
                 {
                     Id = x.Id,

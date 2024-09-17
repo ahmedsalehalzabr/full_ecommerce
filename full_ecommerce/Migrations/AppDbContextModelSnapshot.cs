@@ -34,7 +34,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasIndex("ItemsId");
 
-                    b.ToTable("CartItem");
+                    b.ToTable("CartItem", (string)null);
                 });
 
             modelBuilder.Entity("CategoryItem", b =>
@@ -49,7 +49,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasIndex("ItemsId");
 
-                    b.ToTable("CategoryItem");
+                    b.ToTable("CategoryItem", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -101,7 +101,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("IdentityUser");
+                    b.ToTable("IdentityUser", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Address", b =>
@@ -133,7 +133,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Cart", b =>
@@ -158,7 +158,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasIndex("IdentityUsersId");
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Category", b =>
@@ -185,7 +185,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.CategoryIamge", b =>
@@ -215,7 +215,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryIamges");
+                    b.ToTable("CategoryIamges", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Item", b =>
@@ -257,7 +257,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
@@ -314,7 +314,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ordere");
+                    b.ToTable("Ordere", (string)null);
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Rating", b =>
@@ -337,7 +337,7 @@ namespace full_ecommerce.Migrations
 
                     b.HasIndex("OrdereId");
 
-                    b.ToTable("Ratings");
+                    b.ToTable("Ratings", (string)null);
                 });
 
             modelBuilder.Entity("CartItem", b =>

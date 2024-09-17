@@ -35,6 +35,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
                 UrlHandle = request.UrlHandle,
+               
                 Price = request.Price,
                 Discount = request.Discount,
               
@@ -55,6 +56,7 @@ namespace full_ecommerce.Controllers
                 PublishedDate = blogPost.PublishedDate,
                 ShortDescription = blogPost.ShortDescription,
                 UrlHandle = blogPost.UrlHandle,
+                Quantity = blogPost.Quantity,
                 Price = blogPost.Price,
                 Discount = blogPost.Discount,
              
@@ -84,6 +86,7 @@ namespace full_ecommerce.Controllers
                     UrlHandle = blogPost.UrlHandle,
                     Price = blogPost.Price,
                     FeaturedImageUrl = blogPost.FeaturedImageUrl,
+                    Quantity = blogPost.Quantity,
                     Discount = blogPost.Discount,
                     PriceDiscount = blogPost.Discount * blogPost.Price / 100,
 
@@ -117,6 +120,7 @@ namespace full_ecommerce.Controllers
                 UrlHandle = blogPost.UrlHandle,
                 Price= blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
+                Quantity = blogPost.Quantity,
                 Discount = blogPost.Discount,
                 PriceDiscount = blogPost.Discount * blogPost.Price / 100,
 
@@ -143,6 +147,7 @@ namespace full_ecommerce.Controllers
                 Price = request.Price,
                 PublishedDate = request.PublishedDate,
                 ShortDescription = request.ShortDescription,
+             
                 UrlHandle = request.UrlHandle,
                 Discount = request.Discount,
              
@@ -170,6 +175,7 @@ namespace full_ecommerce.Controllers
                 UrlHandle = blogPost.UrlHandle,
                 Price = blogPost.Price,
                 FeaturedImageUrl = blogPost.FeaturedImageUrl,
+                Quantity = blogPost.Quantity,
                 Discount = blogPost.Discount,
               
 
@@ -198,6 +204,7 @@ namespace full_ecommerce.Controllers
                 UrlHandle = deleteBlogPost.UrlHandle,
                 Price = deleteBlogPost.Price,
                 FeaturedImageUrl = deleteBlogPost.FeaturedImageUrl,
+                Quantity = deleteBlogPost.Quantity,
                 Discount = deleteBlogPost.Discount,
                 PriceDiscount = deleteBlogPost.PriceDiscount, 
             };

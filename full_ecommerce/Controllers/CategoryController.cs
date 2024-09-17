@@ -61,6 +61,8 @@ namespace full_ecommerce.Controllers
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
                     Price = x.Price,
+                    Quantity = x.Quantity,
+                    Discount = x.Discount,
                 }).ToList()
             };
             return Ok(response);
@@ -90,6 +92,8 @@ namespace full_ecommerce.Controllers
                         ShortDescription = x.ShortDescription,
                         FeaturedImageUrl = x.FeaturedImageUrl,
                         Price = x.Price,
+                        Quantity = x.Quantity,
+                        Discount = x.Discount,
                     }).ToList()
                 });
             }
@@ -158,6 +162,8 @@ namespace full_ecommerce.Controllers
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl,
                     Price = x.Price,
+                    Quantity = x.Quantity,
+                    Discount = x.Discount,
                 }).ToList()
 
             };
@@ -213,6 +219,8 @@ namespace full_ecommerce.Controllers
                     ShortDescription = x.ShortDescription,
                     FeaturedImageUrl = x.FeaturedImageUrl, 
                     Price = x.Price,
+                    Quantity = x.Quantity,
+                    Discount = x.Discount,
                 }).ToList()
             };
 

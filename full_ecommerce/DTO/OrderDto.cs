@@ -19,6 +19,7 @@ namespace full_ecommerce.DTO
         public string Quantity { get; set; }
         public string Price { get; set; }
         public List<RatingDto> Ratings { get; set; } = new List<RatingDto>();
+      
 
         // public List<CartItemDto> CartItems { get; set; } = new List<CartItemDto>();
 

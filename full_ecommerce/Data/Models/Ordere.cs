@@ -18,16 +18,9 @@
         public string Price { get; set; }
         public ICollection<Rating> Ratings { get; set; }
 
-        //  public virtual ICollection<CartItem> CartItems { get; set; }
 
-    }
-    //public class CartItem
-    //{
-    //    public Guid CartId { get; set; }
-    //    public string Title { get; set; }
-    //    public string Qty { get; set; }
-    //    public string Price { get; set; }
 
-    //}
+    } 
+  
 
 }
