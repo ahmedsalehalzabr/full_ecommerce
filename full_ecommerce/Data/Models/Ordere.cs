@@ -16,8 +16,7 @@
         public string Item { get; set; }
         public string Quantity { get; set; }
         public string Price { get; set; }
-        //public ICollection<Cart> Carts { get; set; }
-        public ICollection<Rating> Ratings { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
 
 

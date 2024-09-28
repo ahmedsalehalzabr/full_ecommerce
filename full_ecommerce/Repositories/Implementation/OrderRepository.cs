@@ -16,16 +16,16 @@ namespace full_ecommerce.Repositories.Implementation
 
         public async Task<IEnumerable<Ordere>> GetOrdersByUserIdAsync(Guid userId)
         {
-            return await _context.Ordere.Include(x => x.Ratings).Where(o => o.UserId == userId).ToListAsync();
+            return await _context.Ordere.Include(x => x.OrderItems).Where(o => o.UserId == userId).ToListAsync();
         }
         public async Task<Ordere?> GetByIdAsync(Guid id)
         {
-            return await _context.Ordere.Include(x => x.Ratings).FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Ordere.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<Ordere>> GetAllOrdersAsync()
         {
-            return await _context.Ordere.Include(x => x.Ratings).ToListAsync();
+            return await _context.Ordere.Include(x => x.OrderItems).ToListAsync();
         }
 
         public async Task<Ordere> CreateOrderAsync(Ordere order)

@@ -16,6 +16,6 @@ namespace full_ecommerce.Data
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Ordere> Ordere { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 } 

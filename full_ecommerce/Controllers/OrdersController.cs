@@ -1,10 +1,7 @@
 ﻿using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
 using full_ecommerce.Repositories.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.NetworkInformation;
-using static Azure.Core.HttpHeader;
 
 namespace full_ecommerce.Controllers
 {
@@ -18,14 +15,7 @@ namespace full_ecommerce.Controllers
         {
             _orderRepository = orderRepository;
         }
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetOrder( Guid userId)
-        //{
-        //    var order = await _orderRepository.GetOrderByIdAndUserIdAsync( userId);
-        //    if (order == null) return NotFound();
-
-        //    return Ok(order);
-        //}
+      
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(Guid id)
         {
@@ -81,13 +71,17 @@ namespace full_ecommerce.Controllers
                 Quantity = orderDto.Quantity,
                 Price = orderDto.Price,
              
-                Ratings = orderDto.Ratings.Select(x => new Rating
+                OrderItems = orderDto.OrderItems.Select(x => new OrderItem
                 {
-                    Id = x.Id,
-                    Ratings = x.Ratings,
-                    CommuntRating = x.CommuntRating,
-                    // قم بإضافة الخصائص الأخرى حسب الحاجة
-                }).ToList() // تحويل إلى List<Rating> وليس RatingDto
+                    Title = x.Title,
+                    FeaturedImageUrl = x.FeaturedImageUrl,
+                    Price = x.Price,
+                    PublishedDate = x.PublishedDate,
+                    ShortDescription = x.ShortDescription,
+                    UrlHandle = x.UrlHandle,
+                    Discount = x.Discount,
+                   
+                }).ToList() 
             };
 
             await _orderRepository.CreateOrderAsync(order);

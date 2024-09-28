@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using full_ecommerce.Data;
 
@@ -11,9 +12,11 @@ using full_ecommerce.Data;
 namespace full_ecommerce.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240928184015_or")]
+    partial class or
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,6 +93,9 @@ namespace full_ecommerce.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("OrdereId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -100,6 +106,8 @@ namespace full_ecommerce.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrdereId");
 
                     b.ToTable("Carts");
                 });
@@ -201,53 +209,6 @@ namespace full_ecommerce.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Items");
-                });
-
-            modelBuilder.Entity("full_ecommerce.Data.Models.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("FeaturedImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("OrdereId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("PriceDiscount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("PublishedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlHandle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrdereId");
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
@@ -355,16 +316,16 @@ namespace full_ecommerce.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("full_ecommerce.Data.Models.OrderItem", b =>
+            modelBuilder.Entity("full_ecommerce.Data.Models.Cart", b =>
                 {
                     b.HasOne("full_ecommerce.Data.Models.Ordere", null)
-                        .WithMany("OrderItems")
+                        .WithMany("Carts")
                         .HasForeignKey("OrdereId");
                 });
 
             modelBuilder.Entity("full_ecommerce.Data.Models.Ordere", b =>
                 {
-                    b.Navigation("OrderItems");
+                    b.Navigation("Carts");
                 });
 #pragma warning restore 612, 618
         }
