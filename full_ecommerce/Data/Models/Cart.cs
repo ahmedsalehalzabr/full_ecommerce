@@ -11,6 +11,8 @@ namespace full_ecommerce.Data.Models
 
         public Guid UserId { get; set; } 
         public IdentityUser IdentityUsers { get; set; }
+        //public Guid OrdereId { get; set; }
+        //public Ordere Orderes { get; set; }
 
         public ICollection<Item> Items { get; set; }
 

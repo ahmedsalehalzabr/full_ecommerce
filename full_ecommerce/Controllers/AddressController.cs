@@ -1,12 +1,7 @@
-﻿using AutoMapper;
-using full_ecommerce.Data.Models;
+﻿using full_ecommerce.Data.Models;
 using full_ecommerce.DTO;
-using full_ecommerce.Repositories.Implementation;
 using full_ecommerce.Repositories.Interface;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace full_ecommerce.Controllers
 {
@@ -33,8 +28,6 @@ namespace full_ecommerce.Controllers
                 Street = request.Street,
                 Lat = request.Lat,
                 Long = request.Long,
-
-
             };
 
 
@@ -50,9 +43,6 @@ namespace full_ecommerce.Controllers
                 Street = address.Street,
                 Lat = address.Lat,
                 Long = address.Long,
-
-
-
             };
 
             return Ok(response);
@@ -76,7 +66,6 @@ namespace full_ecommerce.Controllers
                     Street = address.Street,
                     Lat = address.Lat,
                     Long = address.Long,
-
                 });
             }
 
