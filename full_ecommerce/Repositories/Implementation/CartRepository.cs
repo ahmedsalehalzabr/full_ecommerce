@@ -7,9 +7,9 @@ namespace full_ecommerce.Repositories.Implementation
 {
     public class CartRepository : ICartRepository
     {
-        private readonly AppDbContext _db;
+        private readonly AppDbContext _db; 
 
-        public CartRepository(AppDbContext db)
+        public CartRepository(AppDbContext db) 
         {
             this._db = db; 
         }
@@ -18,7 +18,7 @@ namespace full_ecommerce.Repositories.Implementation
         {
             await _db.Carts.AddAsync(cart);
             await _db.SaveChangesAsync();
-            return cart;
+            return cart; 
         }
 
        
